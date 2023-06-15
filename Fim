@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .calculator-wrapper {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+
+    .calculator.dark {
+      background-color: #222;
+    }
+
+    .calculator input {
+      grid-column: 1 / span 4;
+      padding: 10px;
+      font-size: 18px;
+      text-align: right;
+    }
+
+    .calculator button {
+      padding: 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .dark-mode-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #222;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-wrapper">
+    <h1>Paje's Calculator</h1>
+    <div class="calculator">
+      <input type="text" id="display" readonly>
+
+      <button onclick="appendNumber(7)">7</button>
+      <button onclick="appendNumber(8)">8</button>
+      <button onclick="appendNumber(9)">9</button>
+      <button onclick="appendOperator('+')">+</button>
+
+      <button onclick="appendNumber(4)">4</button>
+      <button onclick="appendNumber(5)">5</button>
+      <button onclick="appendNumber(6)">6</button>
+      <button onclick="appendOperator('-')">-</button>
+
+      <button onclick="appendNumber(1)">1</button>
+      <button onclick="appendNumber(2)">2</button>
+      <button onclick="appendNumber(3)">3</button>
+      <button onclick="appendOperator('*')">*</button>
+
+      <button onclick="appendNumber(0)">0</button>
+      <button onclick="appendOperator('/')">/</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="clearDisplay()">C</button>
+    </div>
+  </div>
+
+  <button class="dark-mode-button" onclick="toggleDarkMode()">Modo Escuro</button>
+
+  <script>
+    let display = document.getElementById('display');
+    let currentNumber = '';
+    let operator = '';
+    let result = null;
+    let isDarkMode = false;
+
+    function appendNumber(number) {
+      currentNumber += number;
+      display.value = currentNumber;
+    }
+
+    function appendOperator(op) {
+      operator = op;
+      result = parseFloat(currentNumber);
+      currentNumber = '';
+    }
+
+    function calculate() {
+      let number = parseFloat(currentNumber);
+
+      switch (operator) {
+        case '+':
+          result += number;
+          break;
+        case '-':
+          result -= number;
+          break;
+        case '*':
+          result *= number;
+          break;
+        case '/':
+          result /= number;
+          break;
+      }
+
+      display.value = result;
+      currentNumber = '';
+      operator = '';
+      result = null;
+    }
+
+    function clearDisplay() {
+      display.value = '';
+      currentNumber = '';
+      operator = '';
+      result = null;
+    }
+
+    function toggleDarkMode() {
+      const calculator = document.querySelector('.calculator');
+      calculator.classList.toggle('dark');
+      isDarkMode = !isDarkMode;
+      document.body.style.backgroundColor = isDarkMode ? '#222' : '#f0f0f0';
+    }
+  </script>
+</body>
+</html>
